@@ -37,7 +37,6 @@ export default class Home extends React.Component {
 
 	loadAllUsers = async () => {
 		await getAllUsernames().then(async (res) => {
-			console.log(res.data.usernames);
 			let usernames = [];
 			const getUsernames = new Promise((resolve) => {
 				usernames = res.data.usernames.map(user => user.username);
@@ -112,7 +111,6 @@ export default class Home extends React.Component {
 					</Typography.Title>
 					<Questions>
 						{ questions.map((question) => {
-							console.log(questions);
 							if (question) {
 								let currentUsername = '';
 								users.forEach((user) => {

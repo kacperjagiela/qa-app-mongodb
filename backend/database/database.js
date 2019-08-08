@@ -179,27 +179,19 @@ class Database {
 			}
 		).catch(err => console.log(err));
 	}
+	// Handle question deleting
+	deleteQuestion(id){
+		mongoose.connect(process.env.QA_MONGODB_URI, { useNewUrlParser: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 500 }).then(
+			async () => {
+				await models.Question.findByIdAndDelete(id, err=>{
+					if (err) console.log(err);
+					mongoose.connection.close();
+				})
+			}
+		).catch(err => console.log(err));
+	}
 	// Handle detail changing
 	changeDetails(newDetails, username, callback){
-	// 	mongoose.connect(process.env.QA_MONGODB_URI, { useNewUrlParser: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 500 }).getConnection((err, connection) => {
-	// 		const columns = [];
-	// 		const values = [];
-	// 		for (const [key, value] of Object.entries(newDetails)){
-	// 			columns.push(key);
-	// 			values.push(value)
-	// 		}
-	// 		connection.query(`UPDATE QA_users SET ?=? WHERE username=?`,
-	// 		[
-	// 			columns[0],
-	// 			values[0],
-	// 			username
-	// 		],
-	// 		(err, result) => {
-	// 			if (err) throw err;
-	// 			callback(null, true);
-	// 		})
-	// 		connection.release();
-	// 	})
 		mongoose.connect(process.env.QA_MONGODB_URI, { useNewUrlParser: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 500 }).then(
 			async () => {
 				const columns = [];
@@ -221,25 +213,6 @@ class Database {
 	}
 	// Generate new password
 	generatePassword(username, email, callback){
-	// 	mongoose.connect(process.env.QA_MONGODB_URI, { useNewUrlParser: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 500 }).getConnection((err, connection) => {
-	// 		this.getUserData(username, (error, res) => {
-	// 			if (err) callback(null, false);
-	// 			if (res.email === email){
-	// 				const newPassword = strings.generateString();
-	// 				bcrypt.genSalt(10, (err, salt)=>{
-	// 					bcrypt.hash(newPassword, salt, (err, hash)=>{
-	// 						mongoose.connect(process.env.QA_MONGODB_URI, { useNewUrlParser: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 500 }).query(`UPDATE QA_users SET password = ? WHERE username = ?`, [hash, username]);
-	// 					});
-	// 					mailer.setDestination(res.email);
-	// 					mailer.addPassword(newPassword);
-	// 					mailer.sendMessage();
-	// 					mailer.reset();
-	// 					callback(null, true);
-	// 				});
-	// 			}
-	// 		});
-	// 		connection.release();
-	// 	});
 		this.getUserData(username, (error, res) => {
 				if (err) callback(null, false);
 				if (res.email === email){

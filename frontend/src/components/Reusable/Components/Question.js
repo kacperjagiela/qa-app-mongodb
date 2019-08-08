@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
 	Input, Button, Form, Avatar, Typography, Comment,
 } from 'antd';
-import { answerQuestion, serverIp } from '../services';
+import { answerQuestion, serverIp, deleteQuestion } from '../services';
 import { QuestionDiv } from '../../Styles';
 import { getCookie } from '../cookies';
 
@@ -30,11 +30,17 @@ class Question extends React.Component {
 		refresh();
 	}
 
+	handleDelete = () => {
+		const { question, refresh } = this.props;
+		deleteQuestion(question._id);
+		refresh();
+	}
+
 	render() {
 		const { question, username } = this.props;
 		const { answer } = this.state;
 		return (
-			<QuestionDiv>
+			<QuestionDiv style={{ position: 'relative' }}>
 				<Form onSubmit={this.handleAnswer}>
 					<Comment
 						avatar={(
@@ -77,6 +83,25 @@ class Question extends React.Component {
 						{
 							answer && !question.answer
 								? <Button type='primary' htmlType='submit' style={{ float: 'right' }}>Answer!</Button>
+								: null
+						}
+						{
+							username === getCookie('login')
+								?	(
+									<Button
+										style={{
+											position: 'absolute',
+											top: '5px',
+											right: '10px',
+											cursor: 'pointer',
+											zIndex: 1,
+										}}
+										type='primary'
+										onClick={() => this.handleDelete()}
+									>
+										Delete
+									</Button>
+								)
 								: null
 						}
 					</Comment>

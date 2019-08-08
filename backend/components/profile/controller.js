@@ -9,7 +9,7 @@ module.exports = (app, db) => {
 			res.send(result);
 		});
 	});
-			// Check if avatar exists
+	// Check if avatar exists
 	app.get('/checkAvatar/:username', (req, res) => {
 		fs.access(`${avatarPath}/${req.params.username}`, fs.F_OK, (err) =>{
 			if (err) {

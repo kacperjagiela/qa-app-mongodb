@@ -28,6 +28,14 @@ module.exports = (app, db, upload) => {
 			}
 		})
 	});
+	// Handle question deleting
+	app.post('/deleteQuestion/:questionid', (req, res) => {
+		if (req.params.questionid === req.body.id) {
+			db.deleteQuestion(req.body.id, (err, result) => {
+				res.send(result);
+			})
+		}
+	})
 	// Handle changing details
 	app.post('/changeDetails/:username', (req, res) => {
 		db.changeDetails(req.body.details, req.params.username, (err, result) => {
