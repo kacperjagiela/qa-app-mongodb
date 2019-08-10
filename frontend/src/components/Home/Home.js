@@ -17,11 +17,6 @@ export default class Home extends React.Component {
 			allUsers: [],
 			searchPhrease: '',
 		};
-		const { refresh, history } = this.props;
-		if (history.location.state) {
-			refresh();
-			history.location.state = undefined;
-		}
 		this.latestQuestions();
 		this.loadAllUsers();
 	}
@@ -54,7 +49,7 @@ export default class Home extends React.Component {
 
 	onSelect = (value) => {
 		const { history } = this.props;
-		history.push(`/profile/${value}`);
+		history.push(`/qa-app-mongodb/profile/${value}`);
 	}
 
 	onChange = (value) => {
@@ -66,17 +61,21 @@ export default class Home extends React.Component {
 	handleSearch = () => {
 		const { history } = this.props;
 		const { searchPhrease } = this.state;
-		history.push(`/search/${searchPhrease}`);
+		history.push(`/qa-app-mongodb/search/${searchPhrease}`);
 	}
 
 	render() {
+		const { history } = this.props;
 		const { questions, users, allUsers } = this.state;
 		return (
 			<Layout style={{
-				minHeight: '100vh', width: '100%', paddingLeft: '10%', paddingRight: '10%', overflow: 'auto',
+				minHeight: '100vh', width: '100%', paddingLeft: '20%', paddingRight: '20%', overflow: 'auto',
 			}}
 			>
-				<Content>
+				<Content style={{
+					width: '100%', height: '95vh', paddingTop: '5vh',
+				}}
+				>
 					<Typography.Title level={3} style={{ marginTop: '10%', textAlign: 'center' }}>
 						Search for anyone!
 					</Typography.Title>
@@ -122,12 +121,12 @@ export default class Home extends React.Component {
 									<QuestionDiv key={question._id}>
 										<Comment
 											avatar={(
-												<a href={`/profile/${question.asked_by}`}>
+												<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>
 													<Avatar icon='user' size='large' src={`${serverIp}/public/${question.asked_by}`} />
 												</a>
 											)}
 											author={(
-												<a href={`/profile/${question.asked_by}`}>
+												<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>
 													{question.asked_by}
 												</a>
 											)}
@@ -140,12 +139,12 @@ export default class Home extends React.Component {
 										>
 											<Comment
 												avatar={(
-													<a href={`/profile/${currentUsername}`}>
+													<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${currentUsername}`)}>
 														<Avatar icon='user' size='large' src={`${serverIp}/public/${currentUsername}`} />
 													</a>
 												)}
 												author={(
-													<a href={`/profile/${currentUsername}`}>
+													<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${currentUsername}`)}>
 														{currentUsername}
 													</a>
 												)}

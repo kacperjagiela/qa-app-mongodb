@@ -54,7 +54,7 @@ class SettingsForm extends React.Component {
 	onClose = () => {
 		const { history } = this.props;
 		const { logged } = this.state;
-		history.push(`/profile/${logged}`);
+		history.push(`/qa-app-mongodb/profile/${logged}`);
 	}
 
 	handleSubmit = (e) => {
@@ -100,10 +100,10 @@ class SettingsForm extends React.Component {
 		if (logged) {
 			return (
 				<Layout style={{
-					minHeight: '100vh', width: '100%', paddingLeft: '10%', paddingRight: '10%', overflow: 'auto',
+					minHeight: '100vh', width: '100%', paddingLeft: '20%', paddingRight: '20%', overflow: 'auto',
 				}}
 				>
-					<Content>
+					<Content style={{ paddingTop: '10vh' }}>
 						<Typography.Title level={2} style={{ paddingTop: '5vh', textAlign: 'center', marginBottom: '12px' }}>
 							Settings
 							{' '}
@@ -164,7 +164,7 @@ class SettingsForm extends React.Component {
 				</Layout>
 			);
 		}
-		history.push('/home');
+		history.push('/qa-app-mongodb/home');
 		return null;
 	}
 }

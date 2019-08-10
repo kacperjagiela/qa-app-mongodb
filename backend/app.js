@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const routeController = require('./components/controller.js');
+const PORT = process.env.PORT || 5000;
 require('dotenv').config();
 
 const multer = require('multer');
@@ -24,7 +26,6 @@ const app = express();
 app.use(cookieParser(), bodyParser.urlencoded({extended:true}), bodyParser.json());
 app.use('/public', express.static('public'));
 app.use((request, response, next) => {
-    response.header('Access-Control-Allow-Origin', `http://${process.env.QA_FRONTEND_IP}:3000`);
     response.header(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept'
@@ -32,8 +33,12 @@ app.use((request, response, next) => {
     response.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
+app.use(cors({
+	origin: 'https://kacperjagiela.github.io',
+	credentials: true
+}));
 
 //Initialize controller
 routeController(app, db, upload);
 
-app.listen(8080, process.env.QA_BACKEND_IP, ()=>console.log(`Listening on ${process.env.QA_BACKEND_IP}:8080..`));
+app.listen(PORT , ()=>console.log(`Listening on PORT ${PORT}..`));

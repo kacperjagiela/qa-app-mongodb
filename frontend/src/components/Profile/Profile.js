@@ -54,7 +54,7 @@ export default class Profile extends React.Component {
 		} = this.state;
 		const LoggedIn = () => (
 			<Layout style={{
-				minHeight: '100vh', width: '100%', paddingLeft: '10%', paddingRight: '10%', overflow: 'auto',
+				minHeight: '100vh', width: '100%', paddingLeft: '20%', paddingRight: '20%', overflow: 'auto',
 			}}
 			>
 				<Content style={{
@@ -62,7 +62,7 @@ export default class Profile extends React.Component {
 				}}
 				>
 					<div style={{ marginBottom: '100px' }}>
-						<a href={`/profile/${username}`} style={{ float: 'left', marginRight: '10px' }}>
+						<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${username}`)} style={{ float: 'left', marginRight: '10px' }}>
 							{
 								avatar
 									? <Profilepic src={`${serverIp}/public/${username}`} alt='100x100' style={{ zIndex: 2 }} />
@@ -78,12 +78,13 @@ export default class Profile extends React.Component {
 					</div>
 					{getCookie('login') === match.params.username
 						? null
-						: <Button href={`/ask/${username}`} type='primary'>Ask this user</Button>}
+						: <Button onClick={() => history.push(`/qa-app-mongodb/ask/${username}`)} type='primary'>Ask this user</Button>}
 					<Questions>
 						{questions.reverse().map(question => (
 							<Question
 								question={question}
 								refresh={this.refresh}
+								history={history}
 								username={username}
 								key={question._id}
 							/>
@@ -96,7 +97,7 @@ export default class Profile extends React.Component {
 			</Layout>
 		);
 		const NotLoggedIn = () => {
-			history.push('/home');
+			history.push('/qa-app-mongodb/home');
 			return null;
 		};
 		return (

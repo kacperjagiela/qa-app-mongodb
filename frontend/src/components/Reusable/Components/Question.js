@@ -37,18 +37,18 @@ class Question extends React.Component {
 	}
 
 	render() {
-		const { question, username } = this.props;
+		const { question, username, history } = this.props;
 		const { answer } = this.state;
 		return (
 			<QuestionDiv style={{ position: 'relative' }}>
 				<Form onSubmit={this.handleAnswer}>
 					<Comment
 						avatar={(
-							<a href={`/profile/${question.asked_by}`}>
+							<a href='#' onClick={ () => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>
 								<Avatar icon='user' size='large' src={`${serverIp}/public/${question.asked_by}`} />
 							</a>
 						)}
-						author={<a href={`/profile/${question.asked_by}`}>{question.asked_by}</a>}
+						author={<a href='#' onClick={ () => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>{question.asked_by}</a>}
 						content={(
 							question.content
 						)}
@@ -58,11 +58,11 @@ class Question extends React.Component {
 								?	(
 									<Comment
 										avatar={(
-											<a href={`/profile/${username}`}>
+											<a href='#' onClick={ () => history.push(`/qa-app-mongodb/profile/${username}`)}>
 												<Avatar icon='user' size='large' src={`${serverIp}/public/${username}`} />
 											</a>
 										)}
-										author={<a href={`/profile/${username}`}>{username}</a>}
+										author={<a href='#' onClick={ () => history.push(`/qa-app-mongodb/profile/${username}`)}>{username}</a>}
 										content={(
 											<Typography.Paragraph>
 												{question.answer}

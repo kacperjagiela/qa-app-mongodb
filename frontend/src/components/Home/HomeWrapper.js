@@ -4,31 +4,16 @@ import { getCookie } from '../Reusable/cookies';
 import Home from './Home';
 import WelcomePage from '../WelcomePage/WelcomePage';
 
-class HomeWrapper extends React.Component {
-	state = {
-		login: getCookie('login'),
-	};
+const HomeWrapper = ({ history }) => {
+	const LoggedIn = () => (
+		<Home history={history} />
+	);
+	const NotLoggedIn = () => (
+		<WelcomePage history={history} />
+	);
+	return (
+		getCookie('login') ? <LoggedIn /> : <NotLoggedIn />
+	);
+};
 
-	componentDidMount() {
-		const { history, refresh } = this.props;
-		if (history.action === 'REPLACE') {
-			history.action = 'PUT';
-			refresh();
-		}
-	}
-
-	render() {
-		const { login } = this.state;
-		const { refresh, history } = this.props;
-		const LoggedIn = () => (
-			<Home refresh={refresh} history={history} />
-		);
-		const NotLoggedIn = () => (
-			<WelcomePage refresh={refresh} history={history} />
-		);
-		return (
-			login ? <LoggedIn /> : <NotLoggedIn />
-		);
-	}
-}
 export default withRouter(HomeWrapper);

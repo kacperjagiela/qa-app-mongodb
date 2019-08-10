@@ -30,14 +30,14 @@ class ForgotForm extends React.Component {
 
 	onClose = () => {
 		const { history } = this.props;
-		history.push('/login');
+		history.push('/qa-app-mongodb/login');
 	}
 
 	render() {
 		const { logged, alertVisible } = this.state;
 		const { form, history } = this.props;
 		if (logged) {
-			history.push('/');
+			history.push('/qa-app-mongodb/');
 			return null;
 		}
 		return (

@@ -22,7 +22,7 @@ class AskForm extends React.Component {
 			if (!err) {
 				askQuestion(match.params.username, values.questionContent, logged)
 					.then((res) => {
-						if (res.data) history.push(`/profile/${match.params.username}`);
+						if (res.data) history.push(`/qa-app-mongodb/profile/${match.params.username}`);
 					})
 					.catch(error => error);
 			}
@@ -41,17 +41,17 @@ class AskForm extends React.Component {
 						<LoginDiv style={{ width: '80%', height: '90%', marginLeft: '10%' }}>
 							<Typography.Title level={2} style={{ textAlign: 'center' }}>
 								You can ask
-								<a href={`/profile/${username}`}>{` ${username} `}</a>
+								<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${username}`)}>{` ${username} `}</a>
 								anything!
 							</Typography.Title>
 							<Form onSubmit={this.handleSubmit} style={{ width: '100%' }}>
 								<Form.Item>
 									{form.getFieldDecorator('questionContent')(
-										<Input
-											suffix={<Button type='primary' htmlType='submit' icon='question' style={{ marginRight: -12 }} />}
+										<Input.TextArea
 											placeholder='Your question here'
 										/>,
 									)}
+									<Button type='primary' htmlType='submit' style={{ marginRight: -12 }}>Ask question</Button>
 								</Form.Item>
 							</Form>
 						</LoginDiv>
@@ -62,7 +62,7 @@ class AskForm extends React.Component {
 				</Layout>
 			);
 		}
-		history.push('/home');
+		history.push('/qa-app-mongodb/home');
 		return null;
 	}
 }

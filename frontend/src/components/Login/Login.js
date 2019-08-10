@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { LoginDiv } from '../Styles';
-import { getCookie } from '../Reusable/cookies';
+import { getCookie, setCookie } from '../Reusable/cookies';
 import { login } from '../Reusable/services';
 
 class LoginForm extends React.Component {
@@ -27,7 +27,8 @@ class LoginForm extends React.Component {
 							this.setState({
 								status: 'success',
 							}, () => {
-								history.push('/home', { refresh: true });
+								setCookie('login', values.username);
+								history.push('/qa-app-mongodb/home', { refresh: true });
 							});
 						} else {
 							this.setState({

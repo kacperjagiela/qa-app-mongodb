@@ -51,7 +51,7 @@ class Database {
 			async () => {
 				const questions = await users.map( async user => {
 					return new Promise(async (resolve, reject) => {
-						await models.Question.findOne({user_id: user.id, answer: { $exists: true }}).sort({add_date: 1}).exec((error, results) => {
+						await models.Question.findOne({user_id: user.id, answer: { $exists: true }}).exec((error, results) => {
 							if(results) resolve(results);
 						});
 					});
@@ -116,11 +116,11 @@ class Database {
 								});
 								await user.save( error => {
 									if (!error) console.log('Created!');
+									callback(null, true);
+									mongoose.connection.close();
 								});
 							});
 						});
-						callback(null, true);
-						mongoose.connection.close();
 					}
 				})
 				

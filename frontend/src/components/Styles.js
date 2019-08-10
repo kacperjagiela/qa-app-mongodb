@@ -3,8 +3,6 @@ import {
 	fadeInRight, zoomIn, slideInDown, fadeIn,
 } from 'react-animations';
 
-// move generic styled components to /styles dir
-
 export const FadeInRight = styled.div`
 width:100%;
 heigth:100%;
@@ -40,20 +38,36 @@ border-radius:50%;
 
 export const Register = styled.div`
 font-family: 'Roboto', sans-serif;
-width:80vw;
+width:100%;
 height:100vh;
-margin-left:10vw;
+padding-left:20%;
+padding-right:20%;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
 animation: 1.2s ${keyframes`${fadeIn}`};
 
-@media screen and (max-width:768px){
-	padding-top:2vh;
-	width:100vw;
+@media screen and (max-width:480px){
+	padding-top:5vh;
+	display:block;
+	padding-left:10%;
+	padding-right:10%;
 	margin-left: 0;
 }
+`;
+
+export const Trigger = styled.div`
+	width:30px;
+	height:45px;
+	position:absolute;
+	top:50px;
+	left:0px;
+	z-index: 3001;
+
+	@media screen and (max-width:767){
+		right:0px;
+	}
 `;
 
 export const ShortProfile = styled.div`

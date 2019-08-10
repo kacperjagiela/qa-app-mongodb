@@ -50,7 +50,7 @@ class Search extends React.Component {
 			</Layout>
 		);
 		const NotLoggedIn = () => {
-			history.push('/', { refresh: true });
+			history.push('/qa-app-mongodb/', { refresh: true });
 			return null;
 		};
 		return (

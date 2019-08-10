@@ -6,32 +6,19 @@ import Switcher from '../Routing/Switcher'; // eslint-disable-line no-unused-var
 import { getCookie } from '../Reusable/cookies';
 
 class AppWrapper extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			login: getCookie('login'),
-		};
-	}
-
-	refresh = () => {
-		this.setState({ login: getCookie('login') });
-	}
-
 	render() {
 		const { history } = this.props;
-		const { login } = this.state;
 		const { pathname } = history.location;
 		let subPath = '';
-		if (pathname.indexOf('/') === pathname.lastIndexOf('/')) {
-			subPath = pathname.replace('/', '');
+		if (pathname.indexOf('/qa-app-mongodb/') === pathname.lastIndexOf('/')) {
+			subPath = pathname.replace('/qa-app-mongodb/', '');
 		} else {
-			subPath = pathname.substring(pathname.indexOf('/') + 1, pathname.lastIndexOf('/'));
+			subPath = pathname.substring(pathname.indexOf('/qa-app-mongodb/') + 1, pathname.lastIndexOf('/qa-app-mongodb/'));
 		}
 		const LoggedIn = () => (
 			<Layout style={{ minHeight: '100vh', maxHeight: '100vh' }}>
 				<NavigationSider
 					selected={subPath}
-					login={login}
 				/>
 				<Switcher refresh={this.refresh} />
 			</Layout>
@@ -42,7 +29,7 @@ class AppWrapper extends React.Component {
 			</Layout>
 		);
 		return (
-			login ? <LoggedIn /> : <NotLoggedIn />
+			getCookie('login') ? <LoggedIn /> : <NotLoggedIn />
 		);
 	}
 }

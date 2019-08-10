@@ -6,7 +6,7 @@ import { serverIp } from '../services';
 const ProfileShort = ({ user }) => (
 	<ShortProfile>
 		<Avatar size='large' src={`${serverIp}/public/${user.username}`} />
-		<a href={`/profile/${user.username}`}>{user.username}</a>
+		<a href={`/qa-app-mongodb/profile/${user.username}`}>{user.username}</a>
 	</ShortProfile>
 );
 
