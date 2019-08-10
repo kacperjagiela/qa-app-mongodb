@@ -72,25 +72,25 @@ class NavigationSider extends React.Component {
 		>
 			<Menu theme='light' mode='inline' defaultSelectedKeys={this.props.selected.split(' ')} style={{ height: '100%' }}>
 				<Menu.Item key='home'>
-					<Link to='/qa-app-mongodb/home'>
+					<Link to='/home'>
 						<Icon type='home' />
 						<span className='nav-text'>Home</span>
 					</Link>
 				</Menu.Item>
 				<Menu.Item key='profile'>
-					<Link to={`/qa-app-mongodb/profile/${getCookie('login')}`}>
+					<Link to={`/profile/${getCookie('login')}`}>
 						<Icon type='profile' />
 						<span className='nav-text'>Your profile</span>
 					</Link>
 				</Menu.Item>
 				<Menu.Item key='settings'>
-					<Link to='/qa-app-mongodb/settings'>
+					<Link to='/settings'>
 						<Icon type='setting' />
 						<span className='nav-text'>Settings</span>
 					</Link>
 				</Menu.Item>
 				<Menu.Item key='logout'>
-					<Link to='/qa-app-mongodb/logout'>
+					<Link to='/logout'>
 						<Icon type='logout' />
 						<span className='nav-text'>Log out</span>
 					</Link>

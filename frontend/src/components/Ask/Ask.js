@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
 	Form, Layout, Input, Button, Typography,
 } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getCookie } from '../Reusable/cookies';
 import { askQuestion } from '../Reusable/services';
 import { LoginDiv } from '../Styles';
@@ -22,7 +22,7 @@ class AskForm extends React.Component {
 			if (!err) {
 				askQuestion(match.params.username, values.questionContent, logged)
 					.then((res) => {
-						if (res.data) history.push(`/qa-app-mongodb/profile/${match.params.username}`);
+						if (res.data) history.push(`/profile/${match.params.username}`);
 					})
 					.catch(error => error);
 			}
@@ -41,7 +41,7 @@ class AskForm extends React.Component {
 						<LoginDiv style={{ width: '80%', height: '90%', marginLeft: '10%' }}>
 							<Typography.Title level={2} style={{ textAlign: 'center' }}>
 								You can ask
-								<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${username}`)}>{` ${username} `}</a>
+								<Link to={`/profile/${username}`}>{` ${username} `}</Link>
 								anything!
 							</Typography.Title>
 							<Form onSubmit={this.handleSubmit} style={{ width: '100%' }}>
@@ -62,7 +62,7 @@ class AskForm extends React.Component {
 				</Layout>
 			);
 		}
-		history.push('/qa-app-mongodb/home');
+		history.push('/home');
 		return null;
 	}
 }

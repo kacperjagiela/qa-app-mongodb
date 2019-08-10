@@ -55,7 +55,7 @@ class Registration extends React.Component {
 
 	handleClose = () => {
 		const { history } = this.props;
-		history.push('/qa-app-mongodb/login');
+		history.push('/login');
 	}
 
 	render() {
@@ -90,7 +90,7 @@ class Registration extends React.Component {
 			},
 		];
 		const LoggedIn = () => {
-			history.push('/qa-app-mongodb/home', { refresh: true });
+			history.push('/home', { refresh: true });
 			return null;
 		};
 		const NotLoggedIn = () => (
@@ -111,7 +111,7 @@ class Registration extends React.Component {
 						message='User already exists!'
 						type='error'
 						closable
-						afterClose={history.push('/qa-app-mongodb/register')}
+						afterClose={history.push('/register')}
 						style={{
 							zIndex: 3000, position: 'absolute', top: '40vh', width: '60%', textAlign: 'center', left: '20%',
 						}}

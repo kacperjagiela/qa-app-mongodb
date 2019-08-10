@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import {
 	Input, Button, Form, Avatar, Typography, Comment,
 } from 'antd';
@@ -37,18 +38,18 @@ class Question extends React.Component {
 	}
 
 	render() {
-		const { question, username, history } = this.props;
+		const { question, username } = this.props;
 		const { answer } = this.state;
 		return (
 			<QuestionDiv style={{ position: 'relative' }}>
 				<Form onSubmit={this.handleAnswer}>
 					<Comment
 						avatar={(
-							<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>
+							<Link to={`/profile/${question.asked_by}`}>
 								<Avatar icon='user' size='large' src={`${serverIp}/public/${question.asked_by}`} />
-							</a>
+							</Link>
 						)}
-						author={<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>{question.asked_by}</a>}
+						author={<Link to={`/profile/${question.asked_by}`}>{question.asked_by}</Link>}
 						content={(
 							question.content
 						)}
@@ -58,11 +59,11 @@ class Question extends React.Component {
 								?	(
 									<Comment
 										avatar={(
-											<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${username}`)}>
+											<Link to={`/profile/${username}`}>
 												<Avatar icon='user' size='large' src={`${serverIp}/public/${username}`} />
-											</a>
+											</Link>
 										)}
-										author={<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${username}`)}>{username}</a>}
+										author={<Link to={`/profile/${username}`}>{username}</Link>}
 										content={(
 											<Typography.Paragraph>
 												{question.answer}

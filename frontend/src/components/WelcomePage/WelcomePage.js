@@ -11,10 +11,10 @@ class WelcomePage extends React.Component {
 			<Welcome>
 				<Typography.Title level={2}>Let&apos;s know each other!</Typography.Title>
 				<Typography.Paragraph style={{ fontFamily: 'Roboto', fontWeight: 'bold' }}>Enter the best Question and Answers site</Typography.Paragraph>
-				<Link to='/qa-app-mongodb/register'><Button type='primary' size='large' shape='round'>Join now</Button></Link>
+				<Link to='/register'><Button type='primary' size='large' shape='round'>Join now</Button></Link>
 				<h4>
 					or
-					<Link to='/qa-app-mongodb/login'> log in</Link>
+					<Link to='/login'> log in</Link>
 				</h4>
 			</Welcome>
 		);

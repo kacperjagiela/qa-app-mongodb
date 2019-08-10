@@ -1,10 +1,11 @@
-/* eslint-disable no-underscore-dangle */
 import * as React from 'react';
 import {
 	Layout, Input, Typography, AutoComplete, Button, Icon, Avatar, Comment,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import { getLatestQuestions, getAllUsernames, serverIp } from '../Reusable/services';
-import { QuestionDiv, Questions } from '../Styles';
+import { QuestionDiv, Questions, LayoutStyled } from '../Styles';
+import Loading from '../Reusable/Components/Loading';
 
 const { Content, Footer } = Layout;
 
@@ -12,6 +13,7 @@ export default class Home extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			ready: false,
 			questions: [],
 			users: [],
 			allUsers: [],
@@ -19,6 +21,9 @@ export default class Home extends React.Component {
 		};
 		this.latestQuestions();
 		this.loadAllUsers();
+		setTimeout(() => this.setState({
+			ready: true,
+		}), 1000);
 	}
 
 	latestQuestions = async () => {
@@ -31,13 +36,13 @@ export default class Home extends React.Component {
 	}
 
 	loadAllUsers = async () => {
-		await getAllUsernames().then(async (res) => {
+		await getAllUsernames().then((res) => {
 			let usernames = [];
 			const getUsernames = new Promise((resolve) => {
 				usernames = res.data.usernames.map(user => user.username);
 				resolve('ok');
 			});
-			await getUsernames.then((result) => {
+			getUsernames.then((result) => {
 				if (result) {
 					this.setState({
 						allUsers: usernames,
@@ -49,7 +54,7 @@ export default class Home extends React.Component {
 
 	onSelect = (value) => {
 		const { history } = this.props;
-		history.push(`/qa-app-mongodb/profile/${value}`);
+		history.push(`/profile/${value}`);
 	}
 
 	onChange = (value) => {
@@ -61,109 +66,106 @@ export default class Home extends React.Component {
 	handleSearch = () => {
 		const { history } = this.props;
 		const { searchPhrease } = this.state;
-		history.push(`/qa-app-mongodb/search/${searchPhrease}`);
+		history.push(`/search/${searchPhrease}`);
 	}
 
 	render() {
-		const { history } = this.props;
-		const { questions, users, allUsers } = this.state;
+		const {
+			questions, users, allUsers, ready,
+		} = this.state;
 		return (
-			<Layout style={{
-				minHeight: '100vh', width: '100%', paddingLeft: '20%', paddingRight: '20%', overflow: 'auto',
-			}}
-			>
-				<Content style={{
-					width: '100%', height: '95vh', paddingTop: '5vh',
-				}}
-				>
-					<Typography.Title level={3} style={{ marginTop: '10%', textAlign: 'center' }}>
-						Search for anyone!
-					</Typography.Title>
-					<AutoComplete
-						className='global-search'
-						size='large'
-						style={{ width: '60%', marginLeft: '20%' }}
-						dataSource={allUsers}
-						onSelect={this.onSelect}
-						onSearch={this.onChange}
-						placeholder='Search for user...'
-						filterOption={(inputValue, option) => (
-							option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-						)}
+			ready ? (
+				<LayoutStyled>
+					<Content style={{
+						width: '100%', height: '95vh', paddingTop: '5vh',
+					}}
 					>
-						<Input
-							suffix={(
-								<Button
-									className='search-btn'
-									style={{ marginRight: -12 }}
-									size='large'
-									type='primary'
-									onClick={this.handleSearch}
-								>
-									<Icon type='search' />
-								</Button>
+						<Typography.Title level={3} style={{ marginTop: '10%', textAlign: 'center' }}>
+							Search for anyone!
+						</Typography.Title>
+						<AutoComplete
+							className='global-search'
+							size='large'
+							style={{ width: '100%' }}
+							dataSource={allUsers}
+							onSelect={this.onSelect}
+							onSearch={this.onChange}
+							placeholder='Search for user...'
+							filterOption={(inputValue, option) => (
+								option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
 							)}
-						/>
-					</AutoComplete>
-					<Typography.Title level={3} style={{ marginTop: '10vh', textAlign: 'center' }}>
-						Some random QA&apos;s
-					</Typography.Title>
-					<Questions>
-						{ questions.map((question) => {
-							if (question) {
-								let currentUsername = '';
-								users.forEach((user) => {
-									if (user._id === question.user_id) {
-										currentUsername = user.username;
-									}
-								});
-								return (
-									<QuestionDiv key={question._id}>
-										<Comment
-											avatar={(
-												<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>
-													<Avatar icon='user' size='large' src={`${serverIp}/public/${question.asked_by}`} />
-												</a>
-											)}
-											author={(
-												<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${question.asked_by}`)}>
-													{question.asked_by}
-												</a>
-											)}
-											content={
-												question.content
-											}
-											key={
-												question._id
-											}
-										>
+						>
+							<Input
+								suffix={(
+									<Button
+										className='search-btn'
+										style={{ marginRight: -12 }}
+										size='large'
+										type='primary'
+										onClick={this.handleSearch}
+									>
+										<Icon type='search' />
+									</Button>
+								)}
+							/>
+						</AutoComplete>
+						<Typography.Title level={3} style={{ marginTop: '10vh', textAlign: 'center' }}>
+							Some random QA&apos;s
+						</Typography.Title>
+						<Questions>
+							{questions.map((question) => {
+								if (question) {
+									let currentUsername = '';
+									users.forEach((user) => {
+										if (user.id === question.user_id) {
+											currentUsername = user.username;
+										}
+									});
+									return (
+										<QuestionDiv key={question.id}>
 											<Comment
 												avatar={(
-													<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${currentUsername}`)}>
-														<Avatar icon='user' size='large' src={`${serverIp}/public/${currentUsername}`} />
-													</a>
+													<Link to={`/profile/${question.asked_by}`}>
+														<Avatar icon='user' size='large' src={`${serverIp}/public/${question.asked_by}`} />
+													</Link>
 												)}
 												author={(
-													<a href='#' onClick={() => history.push(`/qa-app-mongodb/profile/${currentUsername}`)}>
-														{currentUsername}
-													</a>
+													<Link to={`/profile/${question.asked_by}`}>
+														{question.asked_by}
+													</Link>
 												)}
 												content={
-													question.answer
+													question.content
 												}
-											/>
-										</Comment>
-									</QuestionDiv>
-								);
-							}
-							return null;
-						})}
-					</Questions>
-					<Footer style={{ width: '100%', textAlign: 'center' }}>
-						Created by Kacper Jagieła
-					</Footer>
-				</Content>
-			</Layout>
+											>
+												<Comment
+													avatar={(
+														<Link to={`/profile/${currentUsername}`}>
+															<Avatar icon='user' size='large' src={`${serverIp}/public/${currentUsername}`} />
+														</Link>
+													)}
+													author={(
+														<Link to={`/profile/${currentUsername}`}>
+															{currentUsername}
+														</Link>
+													)}
+													content={
+														question.answer
+													}
+												/>
+											</Comment>
+										</QuestionDiv>
+									);
+								}
+								return null;
+							})}
+						</Questions>
+						<Footer style={{ width: '100%', textAlign: 'center' }}>
+							Created by Kacper Jagieła
+						</Footer>
+					</Content>
+				</LayoutStyled>
+			) : <Loading />
 		);
 	}
 }

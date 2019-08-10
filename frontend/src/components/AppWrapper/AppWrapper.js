@@ -10,10 +10,10 @@ class AppWrapper extends React.Component {
 		const { history } = this.props;
 		const { pathname } = history.location;
 		let subPath = '';
-		if (pathname.indexOf('/qa-app-mongodb/') === pathname.lastIndexOf('/')) {
-			subPath = pathname.replace('/qa-app-mongodb/', '');
+		if (pathname.indexOf('/') === pathname.lastIndexOf('/')) {
+			subPath = pathname.replace('/', '');
 		} else {
-			subPath = pathname.substring(pathname.indexOf('/qa-app-mongodb/') + 1, pathname.lastIndexOf('/qa-app-mongodb/'));
+			subPath = pathname.substring(pathname.indexOf('/') + 1, pathname.lastIndexOf('/'));
 		}
 		const LoggedIn = () => (
 			<Layout style={{ minHeight: '100vh', maxHeight: '100vh' }}>

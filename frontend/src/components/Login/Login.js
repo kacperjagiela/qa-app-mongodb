@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
 	Form, Icon, Input, Button, Checkbox, Typography,
 } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { LoginDiv } from '../Styles';
 import { getCookie, setCookie } from '../Reusable/cookies';
 import { login } from '../Reusable/services';
@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
 								status: 'success',
 							}, () => {
 								setCookie('login', values.username);
-								history.push('/qa-app-mongodb/home', { refresh: true });
+								history.push('/home', { refresh: true });
 							});
 						} else {
 							this.setState({
@@ -71,15 +71,15 @@ class LoginForm extends React.Component {
 							valuePropName: 'checked',
 							initialValue: true,
 						})(<Checkbox>Remember me</Checkbox>)}
-						<a className='login-form-forgot' href='/forgot'>
+						<Link className='login-form-forgot' to='/forgot'>
 									Forgot password
-						</a>
+						</Link>
 						<br />
 						<Button type='primary' htmlType='submit' style={{ width: '100%' }}>
 									Log in
 						</Button>
 								Or
-						<a href='/register'> register now!</a>
+						<Link to='/register'> register now!</Link>
 					</Form.Item>
 				</Form>
 			</LoginDiv>

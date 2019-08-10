@@ -5,6 +5,8 @@ import {
 } from 'antd';
 import { getCookie } from '../Reusable/cookies';
 import { sendFile, changeDetails, getUserData } from '../Reusable/services';
+import { LayoutStyled } from '../Styles';
+import Loading from '../Reusable/Components/Loading';
 
 const { Content, Footer } = Layout;
 
@@ -15,6 +17,7 @@ class SettingsForm extends React.Component {
 		uploading: false,
 		previousDescription: '',
 		visible: false,
+		ready: false,
 	}
 
 	componentDidMount() {
@@ -26,6 +29,9 @@ class SettingsForm extends React.Component {
 				});
 			}
 		});
+		setTimeout(() => this.setState({
+			ready: true,
+		}), 1000);
 	}
 
 	handleUpload = () => {
@@ -54,7 +60,7 @@ class SettingsForm extends React.Component {
 	onClose = () => {
 		const { history } = this.props;
 		const { logged } = this.state;
-		history.push(`/qa-app-mongodb/profile/${logged}`);
+		history.push(`/profile/${logged}`);
 	}
 
 	handleSubmit = (e) => {
@@ -75,7 +81,7 @@ class SettingsForm extends React.Component {
 
 	render() {
 		const {
-			logged, uploading, fileList, previousDescription, visible,
+			logged, uploading, fileList, previousDescription, visible, ready,
 		} = this.state;
 		const { form, history } = this.props;
 		const props = {
@@ -99,72 +105,71 @@ class SettingsForm extends React.Component {
 		};
 		if (logged) {
 			return (
-				<Layout style={{
-					minHeight: '100vh', width: '100%', paddingLeft: '20%', paddingRight: '20%', overflow: 'auto',
-				}}
-				>
-					<Content style={{ paddingTop: '10vh' }}>
-						<Typography.Title level={2} style={{ paddingTop: '5vh', textAlign: 'center', marginBottom: '12px' }}>
-							Settings
-							{' '}
-							<Icon type="setting" />
-						</Typography.Title>
-						<Alert
-							message="Description saved!"
-							type="success"
-							onClose={this.onClose}
-							style={
-								visible
-									? {
-										visibility: 'visible', position: 'relative', top: '20%', left: '20%', zIndex: 2, width: '60%',
+				ready ? (
+					<LayoutStyled>
+						<Content style={{ paddingTop: '10vh' }}>
+							<Typography.Title level={2} style={{ paddingTop: '5vh', textAlign: 'center', marginBottom: '12px' }}>
+								Settings
+								{' '}
+								<Icon type="setting" />
+							</Typography.Title>
+							<Alert
+								message="Description saved!"
+								type="success"
+								onClose={this.onClose}
+								style={
+									visible
+										? {
+											visibility: 'visible', position: 'relative', top: '20%', left: '20%', zIndex: 2, width: '60%',
+										}
+										: {
+											visibility: 'hidden', position: 'relative', top: '20%', left: '20%', zIndex: 2, width: '60%',
+										}}
+								showIcon
+								closable
+							/>
+							<Form onSubmit={this.handleSubmit}>
+								<Typography.Paragraph>
+									Change your description:
+								</Typography.Paragraph>
+								<Form.Item>
+									{
+										form.getFieldDecorator('description', { initialValue: previousDescription })(<Input.TextArea placeholder='Update description' />)
 									}
-									: {
-										visibility: 'hidden', position: 'relative', top: '20%', left: '20%', zIndex: 2, width: '60%',
-									}}
-							showIcon
-							closable
-						/>
-						<Form onSubmit={this.handleSubmit}>
-							<Typography.Paragraph>
-								Change your description:
-							</Typography.Paragraph>
-							<Form.Item>
-								{
-									form.getFieldDecorator('description', { initialValue: previousDescription })(<Input.TextArea placeholder='Update description' />)
-								}
-							</Form.Item>
-							<Typography.Paragraph>
-								Change your profile picture:
-							</Typography.Paragraph>
-							<Form.Item>
-								<Upload {...props}>
-									<Button>
-										<Icon type="upload" />
-										Choose image
+								</Form.Item>
+								<Typography.Paragraph>
+									Change your profile picture:
+								</Typography.Paragraph>
+								<Form.Item>
+									<Upload {...props}>
+										<Button>
+											<Icon type="upload" />
+											Choose image
+										</Button>
+									</Upload>
+									<Button
+										type="primary"
+										onClick={this.handleUpload}
+										disabled={fileList.length === 0}
+										loading={uploading}
+										style={{ marginTop: 16 }}
+									>
+										{uploading ? 'Uploading' : 'Change profile picture'}
 									</Button>
-								</Upload>
-								<Button
-									type="primary"
-									onClick={this.handleUpload}
-									disabled={fileList.length === 0}
-									loading={uploading}
-									style={{ marginTop: 16 }}
-								>
-									{uploading ? 'Uploading' : 'Change profile picture'}
+								</Form.Item>
+								<Button style={{ width: '60%', marginLeft: '20%', marginTop: '5%' }} type='primary' htmlType='submit'>
+									Save description
 								</Button>
-							</Form.Item>
-							<Button style={{ width: '60%', marginLeft: '20%', marginTop: '5%' }} type='primary' htmlType='submit'>
-								Save description
-							</Button>
-						</Form>
-						<Footer style={{ width: '100%', textAlign: 'center' }}>
-							Created by Kacper Jagieła
-						</Footer>
-					</Content>
-				</Layout>
+							</Form>
+							<Footer style={{ width: '100%', textAlign: 'center' }}>
+								Created by Kacper Jagieła
+							</Footer>
+						</Content>
+					</LayoutStyled>
+				) : <Loading />
 			);
 		}
-		history.push('/qa-app-mongodb/home');
+		history.push('/home');
 		return null;
 	}
 }
