@@ -20,7 +20,7 @@ const Switcher = () => (
 		<Route exact path='/qa-app-mongodb/login' component={Login} />
 		<Route exact path='/qa-app-mongodb/logout' component={withRouter(Logout)} />
 		<Route exact path='/qa-app-mongodb/search/:search' component={withRouter(Search)} />
-		<Route path='/qa-app-mongodb/' component={withRouter(HomeWrapper)} />
+		<Route path='/' component={withRouter(HomeWrapper)} />
 	</Switch>
 );
 
