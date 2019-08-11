@@ -56,7 +56,7 @@ class Question extends React.Component {
 					>
 						{
 							question.answer
-								?	(
+								? (
 									<Comment
 										avatar={(
 											<Link to={`/profile/${username}`}>
@@ -71,24 +71,24 @@ class Question extends React.Component {
 										)}
 									/>
 								)
-								:	(
+								: (
 									<div>
 										{
 											username === getCookie('login')
-												?	<Input onChange={e => this.onChange(e)} placeholder="Answer" />
-												:	null
+												? <Input onChange={e => this.onChange(e)} placeholder="Answer" />
+												: null
 										}
 									</div>
 								)
 						}
 						{
 							answer && !question.answer
-								? <Button type='primary' htmlType='submit' style={{ float: 'right' }}>Answer!</Button>
+								? <Button type='primary' htmlType='submit' style={{ float: 'right', marginTop: '5px' }}>Answer!</Button>
 								: null
 						}
 						{
 							username === getCookie('login')
-								?	(
+								? (
 									<Button
 										style={{
 											position: 'absolute',

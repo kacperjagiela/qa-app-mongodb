@@ -12,10 +12,14 @@ const { Content, Footer } = Layout;
 class AskForm extends React.Component {
 	state = {
 		logged: getCookie('login'),
+		loading: false,
 	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		this.setState({
+			loading: true,
+		});
 		const { form, history, match } = this.props;
 		const { logged } = this.state;
 		form.validateFields((err, values) => {
@@ -32,13 +36,16 @@ class AskForm extends React.Component {
 	render() {
 		const { form, history } = this.props;
 		const { pathname } = history.location;
-		const { logged } = this.state;
+		const { logged, loading } = this.state;
 		const username = pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length);
 		if (logged) {
 			return (
 				<Layout>
 					<Content>
-						<LoginDiv style={{ width: '80%', height: '90%', marginLeft: '10%' }}>
+						<LoginDiv style={{
+							width: '100%', height: '90%', paddingLeft: '25%', paddingRight: '25%',
+						}}
+						>
 							<Typography.Title level={2} style={{ textAlign: 'center' }}>
 								You can ask
 								<Link to={`/profile/${username}`}>{` ${username} `}</Link>
@@ -51,7 +58,7 @@ class AskForm extends React.Component {
 											placeholder='Your question here'
 										/>,
 									)}
-									<Button type='primary' htmlType='submit' style={{ marginRight: -12 }}>Ask question</Button>
+									<Button type='primary' loading={loading} htmlType='submit' style={{ marginRight: -12 }}>Ask question</Button>
 								</Form.Item>
 							</Form>
 						</LoginDiv>

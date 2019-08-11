@@ -29,23 +29,20 @@ export default class Profile extends React.Component {
 		// Get profile information from backend
 		getUserData(match.params.username)
 			.then((res) => {
-				this.setState({
-					username: res.data.username,
-					// email: res.data.email,
-					description: res.data.description,
-					// profilepic: res.data.profilepic,
-				});
-				// Get questions from backend
-				getQuestions(res.data.id)
+				getQuestions(res.data._id)
 					.then((response) => {
-						this.setState({ questions: response.data });
-					});
-				checkForAvatar(res.data.username)
-					.then((result) => {
-						setTimeout(() => this.setState({
-							avatar: result.data,
-							ready: true,
-						}), 1000);
+						checkForAvatar(res.data.username)
+							.then((result) => {
+								setTimeout(() => this.setState({
+									username: res.data.username,
+									// email: res.data.email,
+									description: res.data.description,
+									// profilepic: res.data.profilepic,
+									questions: response.data,
+									avatar: result.data,
+									ready: true,
+								}), 1000);
+							});
 					});
 			});
 	}
@@ -87,7 +84,7 @@ export default class Profile extends React.Component {
 										question={question}
 										refresh={this.refresh}
 										username={username}
-										key={question.id}
+										key={question._id}
 									/>
 								))}
 							</Questions>

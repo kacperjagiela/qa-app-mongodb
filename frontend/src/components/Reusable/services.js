@@ -1,6 +1,8 @@
 const axios = require('axios');
 
-export const serverIp = 'https://aqueous-retreat-97205.herokuapp.com';
+// https://aqueous-retreat-97205.herokuapp.com
+
+export const serverIp = 'http://localhost:5000';
 
 export const getUserData = username => (axios.get(`${serverIp}/profile/${username}`));
 

@@ -23,15 +23,15 @@ const db = new Database();
 const app = express();
 
 //Enable CORS, body-parser, cookie-parser
-app.use(cookieParser(), bodyParser.urlencoded({extended:true}), bodyParser.json());
+app.use(cookieParser(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 app.use('/public', express.static('public'));
 app.use((request, response, next) => {
-    response.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    response.header('Access-Control-Allow-Credentials', 'true');
-    next();
+	response.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
+	response.header('Access-Control-Allow-Credentials', 'true');
+	next();
 });
 app.use(cors({
 	origin: 'https://kacperjagiela.github.io',
@@ -41,4 +41,4 @@ app.use(cors({
 //Initialize controller
 routeController(app, db, upload);
 
-app.listen(PORT , ()=>console.log(`Listening on PORT ${PORT}..`));
+app.listen(PORT, () => console.log(`Listening on PORT ${PORT}..`));

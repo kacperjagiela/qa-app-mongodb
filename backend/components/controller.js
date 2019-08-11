@@ -5,7 +5,7 @@ const register = require('./register/controller.js');
 const login = require('./login/controller.js');
 const settings = require('./settings/controller.js');
 
-module.exports = (app, db, upload)=>{
+module.exports = (app, db, upload) => {
 	profile(app, db);
 	questions(app, db);
 	search(app, db);
@@ -15,7 +15,6 @@ module.exports = (app, db, upload)=>{
 	// Get 10 random users
 	app.get('/home', (req, res) => {
 		let allQuestions = [];
-		const users = [];
 		const getQuestions = (users) => {
 			return new Promise((resolve, reject) => {
 				db.getLatestQuestions(users, (error, questions) => {
@@ -26,20 +25,21 @@ module.exports = (app, db, upload)=>{
 			});
 		}
 		const getUsers = new Promise((resolve, reject) => {
-			db.getRandomUsers(10, (err, result) => {
+			db.getRandomUsers(5, async (err, result) => {
 				if (err) throw err;
-				result.forEach((user) => {
-					users.push(user);
+				const usersList = [];
+				await result.forEach((user) => {
+					usersList.push(user);
 				});
-				resolve(users);
+				resolve(usersList);
 			});
 		});
-		getUsers.then(async result => {
+		getUsers.then(result => {
 			if (result) {
-				await getQuestions(result).then(() => {
+				getQuestions(result).then(() => {
 					res.send({
 						questions: allQuestions,
-						users: users
+						users: result
 					});
 				});
 			}

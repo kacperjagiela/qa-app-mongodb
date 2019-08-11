@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Steps, Alert } from 'antd';
+import { Steps, message } from 'antd';
 import { getCookie } from '../Reusable/cookies';
 import { register } from '../Reusable/services';
 import { Register } from '../Styles';
@@ -13,8 +13,6 @@ class Registration extends React.Component {
 	state = {
 		step: 0,
 		username: '',
-		visible: false,
-		valid: true,
 	};
 
 	// Save input value to state key declared on lower component
@@ -42,12 +40,13 @@ class Registration extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		const { state } = this;
+		const { history } = this.props;
 		register(state)
 			.then((res) => {
 				if (res.data) {
-					this.setState({ visible: true });
+					message.success('Created successfully!', 2, this.handleClose);
 				} else {
-					this.setState({ valid: false });
+					message.error('Email or username taken!', 2, () => history.push('/register'));
 				}
 			})
 			.catch(err => err);
@@ -60,7 +59,7 @@ class Registration extends React.Component {
 
 	render() {
 		const {
-			visible, valid, step, username,
+			step, username,
 		} = this.state;
 		const { history } = this.props;
 		const steps = [
@@ -95,28 +94,6 @@ class Registration extends React.Component {
 		};
 		const NotLoggedIn = () => (
 			<Register>
-				{visible ? (
-					<Alert
-						message='User created succesfully!'
-						type='success'
-						closable
-						afterClose={this.handleClose}
-						style={{
-							zIndex: 3000, position: 'absolute', top: '40vh', width: '60%', textAlign: 'center', left: '20%',
-						}}
-					/>
-				) : null}
-				{valid ? null : (
-					<Alert
-						message='User already exists!'
-						type='error'
-						closable
-						afterClose={history.push('/register')}
-						style={{
-							zIndex: 3000, position: 'absolute', top: '40vh', width: '60%', textAlign: 'center', left: '20%',
-						}}
-					/>
-				)}
 				<Steps current={step}>
 					{steps.map(item => (
 						<Step key={item.title} title={item.title} />

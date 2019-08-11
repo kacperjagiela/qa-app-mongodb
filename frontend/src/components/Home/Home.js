@@ -19,32 +19,36 @@ export default class Home extends React.Component {
 			allUsers: [],
 			searchPhrease: '',
 		};
-		this.latestQuestions();
-		this.loadAllUsers();
+	}
+
+	componentDidMount() {
+		this.loadAllUsers().then(() => {
+			this.latestQuestions();
+		});
 	}
 
 	latestQuestions = async () => {
 		await getLatestQuestions().then((res) => {
-			this.setState({
+			setTimeout(() => this.setState({
 				questions: res.data.questions,
 				users: res.data.users,
-			});
+				ready: true,
+			}), 500);
 		});
 	}
 
 	loadAllUsers = async () => {
-		await getAllUsernames().then((res) => {
+		await getAllUsernames().then(async (res) => {
 			let usernames = [];
 			const getUsernames = new Promise((resolve) => {
 				usernames = res.data.usernames.map(user => user.username);
 				resolve('ok');
 			});
-			getUsernames.then((result) => {
+			await getUsernames.then((result) => {
 				if (result) {
-					setTimeout(() => this.setState({
+					this.setState({
 						allUsers: usernames,
-						ready: true,
-					}), 1000);
+					});
 				}
 			});
 		});
@@ -115,12 +119,12 @@ export default class Home extends React.Component {
 								if (question) {
 									let currentUsername = '';
 									users.forEach((user) => {
-										if (user.id === question.user_id) {
+										if (user._id === question.user_id) {
 											currentUsername = user.username;
 										}
 									});
 									return (
-										<QuestionDiv key={question.id}>
+										<QuestionDiv key={question._id}>
 											<Comment
 												avatar={(
 													<Link to={`/profile/${question.asked_by}`}>

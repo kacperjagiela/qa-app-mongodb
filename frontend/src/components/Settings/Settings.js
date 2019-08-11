@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-	Layout, Form, Input, Icon, Upload, Button, Typography, Alert,
+	Layout, Form, Input, Icon, Upload, Button, Typography, message,
 } from 'antd';
 import { getCookie } from '../Reusable/cookies';
 import { sendFile, changeDetails, getUserData } from '../Reusable/services';
@@ -16,7 +16,6 @@ class SettingsForm extends React.Component {
 		fileList: [],
 		uploading: false,
 		previousDescription: '',
-		visible: false,
 		ready: false,
 	}
 
@@ -69,9 +68,11 @@ class SettingsForm extends React.Component {
 			if (values) {
 				changeDetails(values, logged)
 					.then((result) => {
-						this.setState({
-							visible: result,
-						});
+						if (result) {
+							message.success('Changed successfully!', 2, this.onClose);
+						} else {
+							message.error('Something went wrong, try again!', 2);
+						}
 					});
 			}
 		});
@@ -79,7 +80,7 @@ class SettingsForm extends React.Component {
 
 	render() {
 		const {
-			logged, uploading, fileList, previousDescription, visible, ready,
+			logged, uploading, fileList, previousDescription, ready,
 		} = this.state;
 		const { form, history } = this.props;
 		const props = {
@@ -111,21 +112,6 @@ class SettingsForm extends React.Component {
 								{' '}
 								<Icon type="setting" />
 							</Typography.Title>
-							<Alert
-								message="Description saved!"
-								type="success"
-								onClose={this.onClose}
-								style={
-									visible
-										? {
-											visibility: 'visible', position: 'relative', top: '20%', left: '20%', zIndex: 2, width: '60%',
-										}
-										: {
-											visibility: 'hidden', position: 'relative', top: '20%', left: '20%', zIndex: 2, width: '60%',
-										}}
-								showIcon
-								closable
-							/>
 							<Form onSubmit={this.handleSubmit}>
 								<Typography.Paragraph>
 									Change your description:
