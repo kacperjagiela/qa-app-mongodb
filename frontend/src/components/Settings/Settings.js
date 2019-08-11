@@ -24,14 +24,12 @@ class SettingsForm extends React.Component {
 		const { logged } = this.state;
 		getUserData(logged).then((res) => {
 			if (res.data.description !== 'undefined') {
-				this.setState({
+				setTimeout(() => this.setState({
 					previousDescription: res.data.description,
-				});
+					ready: true,
+				}), 1000);
 			}
 		});
-		setTimeout(() => this.setState({
-			ready: true,
-		}), 1000);
 	}
 
 	handleUpload = () => {

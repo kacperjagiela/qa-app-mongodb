@@ -21,9 +21,6 @@ export default class Home extends React.Component {
 		};
 		this.latestQuestions();
 		this.loadAllUsers();
-		setTimeout(() => this.setState({
-			ready: true,
-		}), 1000);
 	}
 
 	latestQuestions = async () => {
@@ -44,9 +41,10 @@ export default class Home extends React.Component {
 			});
 			getUsernames.then((result) => {
 				if (result) {
-					this.setState({
+					setTimeout(() => this.setState({
 						allUsers: usernames,
-					});
+						ready: true,
+					}), 1000);
 				}
 			});
 		});

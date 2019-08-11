@@ -22,9 +22,6 @@ export default class Profile extends React.Component {
 
 	componentDidMount() {
 		this.refresh();
-		setTimeout(() => this.setState({
-			ready: true,
-		}), 1000);
 	}
 
 	refresh = () => {
@@ -45,9 +42,10 @@ export default class Profile extends React.Component {
 					});
 				checkForAvatar(res.data.username)
 					.then((result) => {
-						this.setState({
+						setTimeout(() => this.setState({
 							avatar: result.data,
-						});
+							ready: true,
+						}), 1000);
 					});
 			});
 	}
@@ -66,13 +64,13 @@ export default class Profile extends React.Component {
 						}}
 						>
 							<div style={{ marginBottom: '100px' }}>
-								<a href={`/profile/${username}`} style={{ float: 'left', marginRight: '10px' }}>
+								<Link to={`/profile/${username}`} style={{ float: 'left', marginRight: '10px' }}>
 									{
 										avatar
 											? <Profilepic src={`${serverIp}/public/${username}`} alt='100x100' style={{ zIndex: 2 }} />
 											: <Avatar icon='user' size={80} style={{ zIndex: 2 }} />
 									}
-								</a>
+								</Link>
 								<Title level={2}>{username}</Title>
 								{
 									description !== 'undefined'

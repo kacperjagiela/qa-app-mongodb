@@ -18,13 +18,11 @@ class Search extends React.Component {
 		const { match } = this.props;
 		const { search } = match.params;
 		searchUser(search).then((results) => {
-			this.setState({
+			setTimeout(() => this.setState({
 				users: results.data,
-			});
+				ready: true,
+			}), 1000);
 		});
-		setTimeout(() => this.setState({
-			ready: true,
-		}), 1000);
 	}
 
 	render() {
