@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/qa-app-mongodb/static/css/main.9fe4b0ed.chunk.css",
-    "main.js": "/qa-app-mongodb/static/js/main.47aef7d1.chunk.js",
-    "main.js.map": "/qa-app-mongodb/static/js/main.47aef7d1.chunk.js.map",
+    "main.js": "/qa-app-mongodb/static/js/main.83212ef1.chunk.js",
+    "main.js.map": "/qa-app-mongodb/static/js/main.83212ef1.chunk.js.map",
     "runtime~main.js": "/qa-app-mongodb/static/js/runtime~main.a6c04878.js",
     "runtime~main.js.map": "/qa-app-mongodb/static/js/runtime~main.a6c04878.js.map",
     "static/css/2.ab7e5612.chunk.css": "/qa-app-mongodb/static/css/2.ab7e5612.chunk.css",
     "static/js/2.894a2ba8.chunk.js": "/qa-app-mongodb/static/js/2.894a2ba8.chunk.js",
     "static/js/2.894a2ba8.chunk.js.map": "/qa-app-mongodb/static/js/2.894a2ba8.chunk.js.map",
     "index.html": "/qa-app-mongodb/index.html",
-    "precache-manifest.891ba29f8ac71ff1020bb99931ce3b8c.js": "/qa-app-mongodb/precache-manifest.891ba29f8ac71ff1020bb99931ce3b8c.js",
+    "precache-manifest.d53b9ed764e4208388c204d7459a2f3c.js": "/qa-app-mongodb/precache-manifest.d53b9ed764e4208388c204d7459a2f3c.js",
     "service-worker.js": "/qa-app-mongodb/service-worker.js",
     "static/css/2.ab7e5612.chunk.css.map": "/qa-app-mongodb/static/css/2.ab7e5612.chunk.css.map",
     "static/css/main.9fe4b0ed.chunk.css.map": "/qa-app-mongodb/static/css/main.9fe4b0ed.chunk.css.map"
