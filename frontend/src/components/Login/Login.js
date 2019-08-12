@@ -13,11 +13,15 @@ class LoginForm extends React.Component {
 		this.state = {
 			logged: getCookie('login'),
 			status: '',
+			loading: false,
 		};
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		this.setState({
+			loading: true,
+		});
 		const { form, history } = this.props;
 		form.validateFields((err, values) => {
 			if (!err) {
@@ -33,6 +37,7 @@ class LoginForm extends React.Component {
 						} else {
 							this.setState({
 								status: 'error',
+								loading: false,
 							});
 						}
 					})
@@ -42,7 +47,7 @@ class LoginForm extends React.Component {
 	}
 
 	render() {
-		const { logged, status } = this.state;
+		const { logged, status, loading } = this.state;
 		const { form, history } = this.props;
 		if (logged) {
 			history.push('/', { refresh: true });
@@ -72,13 +77,13 @@ class LoginForm extends React.Component {
 							initialValue: true,
 						})(<Checkbox>Remember me</Checkbox>)}
 						<Link className='login-form-forgot' to='/forgot'>
-									Forgot password
+							Forgot password
 						</Link>
 						<br />
-						<Button type='primary' htmlType='submit' style={{ width: '100%' }}>
-									Log in
+						<Button type='primary' loading={loading} htmlType='submit' style={{ width: '100%' }}>
+							Log in
 						</Button>
-								Or
+						Or
 						<Link to='/register'> register now!</Link>
 					</Form.Item>
 				</Form>

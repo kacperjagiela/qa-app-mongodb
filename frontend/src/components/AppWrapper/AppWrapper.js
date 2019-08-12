@@ -6,6 +6,21 @@ import Switcher from '../Routing/Switcher'; // eslint-disable-line no-unused-var
 import { getCookie } from '../Reusable/cookies';
 
 class AppWrapper extends React.Component {
+	LoggedIn = subPath => (
+		<Layout style={{ minHeight: '100vh', maxHeight: '100vh' }}>
+			<NavigationSider
+				selected={subPath}
+			/>
+			<Switcher refresh={this.refresh} />
+		</Layout>
+	);
+
+	NotLoggedIn = () => (
+		<Layout style={{ minHeight: '100vh', maxHeight: '100vh' }}>
+			<Switcher refresh={this.refresh} />
+		</Layout>
+	);
+
 	render() {
 		const { history } = this.props;
 		const { pathname } = history.location;
@@ -15,21 +30,8 @@ class AppWrapper extends React.Component {
 		} else {
 			subPath = pathname.substring(pathname.indexOf('/') + 1, pathname.lastIndexOf('/'));
 		}
-		const LoggedIn = () => (
-			<Layout style={{ minHeight: '100vh', maxHeight: '100vh' }}>
-				<NavigationSider
-					selected={subPath}
-				/>
-				<Switcher refresh={this.refresh} />
-			</Layout>
-		);
-		const NotLoggedIn = () => (
-			<Layout style={{ minHeight: '100vh', maxHeight: '100vh' }}>
-				<Switcher refresh={this.refresh} />
-			</Layout>
-		);
 		return (
-			getCookie('login') ? <LoggedIn /> : <NotLoggedIn />
+			getCookie('login') ? this.LoggedIn(subPath) : this.NotLoggedIn()
 		);
 	}
 }
