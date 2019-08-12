@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d3c9aeee6d3a243b068e9247b5a9a421",
+    "revision": "1a69817d64c17b10ca05f2be530202de",
     "url": "/qa-app-mongodb/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/qa-app-mongodb/static/css/2.ab7e5612.chunk.css"
   },
   {
-    "revision": "2012ae7e7c6212af14a1",
+    "revision": "54a2f89bcc51b2b15b5d",
     "url": "/qa-app-mongodb/static/css/main.9fe4b0ed.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/qa-app-mongodb/static/js/2.fe9b5b78.chunk.js"
   },
   {
-    "revision": "2012ae7e7c6212af14a1",
-    "url": "/qa-app-mongodb/static/js/main.4e4682d2.chunk.js"
+    "revision": "54a2f89bcc51b2b15b5d",
+    "url": "/qa-app-mongodb/static/js/main.0c6a34b7.chunk.js"
   },
   {
     "revision": "126b60e9a4deb9be21b8",
