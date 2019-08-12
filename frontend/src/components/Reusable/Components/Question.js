@@ -14,6 +14,8 @@ class Question extends React.Component {
 		const { question } = this.props;
 		this.state = {
 			answer: question.answer,
+			loadingAnswer: false,
+			loadingDelete: false,
 		};
 	}
 
@@ -25,6 +27,9 @@ class Question extends React.Component {
 
 	handleAnswer = (e) => {
 		e.preventDefault();
+		this.setState({
+			loadingAnswer: true,
+		});
 		const { question, refresh } = this.props;
 		const { answer } = this.state;
 		answerQuestion(question._id, answer);
@@ -32,6 +37,9 @@ class Question extends React.Component {
 	}
 
 	handleDelete = () => {
+		this.setState({
+			loadingDelete: true,
+		});
 		const { question, refresh } = this.props;
 		deleteQuestion(question._id);
 		refresh();
@@ -39,7 +47,7 @@ class Question extends React.Component {
 
 	render() {
 		const { question, username } = this.props;
-		const { answer } = this.state;
+		const { answer, loadingAnswer, loadingDelete } = this.state;
 		return (
 			<QuestionDiv style={{ position: 'relative' }}>
 				<Form onSubmit={this.handleAnswer}>
@@ -83,7 +91,7 @@ class Question extends React.Component {
 						}
 						{
 							answer && !question.answer
-								? <Button type='primary' htmlType='submit' style={{ float: 'right', marginTop: '5px' }}>Answer!</Button>
+								? <Button type='primary' htmlType='submit' loading={loadingAnswer} style={{ float: 'right', marginTop: '5px' }}>Answer!</Button>
 								: null
 						}
 						{
@@ -98,6 +106,7 @@ class Question extends React.Component {
 											zIndex: 1,
 										}}
 										type='primary'
+										loaoding={loadingDelete}
 										onClick={() => this.handleDelete()}
 									>
 										Delete

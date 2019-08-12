@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-	Layout, Form, Input, Icon, Upload, Button, Typography, message,
+	Layout, Form, Input, Icon, Button, Typography, message,
 } from 'antd';
 import { getCookie } from '../Reusable/cookies';
-import { sendFile, changeDetails, getUserData } from '../Reusable/services';
+import { changeDetails, getUserData } from '../Reusable/services';
 import { LayoutStyled } from '../Styles';
 import Loading from '../Reusable/Components/Loading';
 
@@ -13,8 +13,6 @@ const { Content, Footer } = Layout;
 class SettingsForm extends React.Component {
 	state = {
 		logged: getCookie('login'),
-		fileList: [],
-		uploading: false,
 		previousDescription: '',
 		ready: false,
 	}
@@ -29,29 +27,6 @@ class SettingsForm extends React.Component {
 				}), 1000);
 			}
 		});
-	}
-
-	handleUpload = () => {
-		const { fileList, logged } = this.state;
-		const formData = new FormData();
-		formData.append('username', logged);
-		formData.append('file', fileList[fileList.length - 1]);
-		this.setState({
-			uploading: true,
-		});
-		sendFile(formData, logged)
-			.then((result) => {
-				if (result.data) {
-					this.setState({
-						fileList: [],
-						uploading: false,
-					});
-				} else {
-					this.setState({
-						uploading: false,
-					});
-				}
-			});
 	}
 
 	onClose = () => {
@@ -80,28 +55,9 @@ class SettingsForm extends React.Component {
 
 	render() {
 		const {
-			logged, uploading, fileList, previousDescription, ready,
+			logged, previousDescription, ready,
 		} = this.state;
 		const { form, history } = this.props;
-		const props = {
-			onRemove: (file) => {
-				this.setState((state) => {
-					const index = state.fileList.indexOf(file);
-					const newFileList = state.fileList.slice();
-					newFileList.splice(index, 1);
-					return {
-						fileList: newFileList,
-					};
-				});
-			},
-			beforeUpload: (file) => {
-				this.setState(state => ({
-					fileList: [...state.fileList, file],
-				}));
-				return false;
-			},
-			fileList,
-		};
 		if (logged) {
 			return (
 				ready ? (
@@ -120,26 +76,6 @@ class SettingsForm extends React.Component {
 									{
 										form.getFieldDecorator('description', { initialValue: previousDescription })(<Input.TextArea placeholder='Update description' />)
 									}
-								</Form.Item>
-								<Typography.Paragraph>
-									Change your profile picture:
-								</Typography.Paragraph>
-								<Form.Item>
-									<Upload {...props}>
-										<Button>
-											<Icon type="upload" />
-											Choose image
-										</Button>
-									</Upload>
-									<Button
-										type="primary"
-										onClick={this.handleUpload}
-										disabled={fileList.length === 0}
-										loading={uploading}
-										style={{ marginTop: 16 }}
-									>
-										{uploading ? 'Uploading' : 'Change profile picture'}
-									</Button>
 								</Form.Item>
 								<Button style={{ width: '60%', marginLeft: '20%', marginTop: '5%' }} type='primary' htmlType='submit'>
 									Save description

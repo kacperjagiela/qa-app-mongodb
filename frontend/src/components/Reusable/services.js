@@ -29,11 +29,3 @@ export const changeDetails = (newDetails, username) => (axios.post(`${serverIp}/
 export const generatePassword = (username, userEmail) => (axios.post(`${serverIp}/changePassword`, { user: username, email: userEmail }));
 
 export const deleteQuestion = questionid => (axios.post(`${serverIp}/deleteQuestion/${questionid}`, { id: questionid }));
-
-export const sendFile = (data, username) => (
-	axios.post(`${serverIp}/updatePicture/${username}`, data, {
-		headers: {
-			'Content-Type': 'multipart/form-data',
-		},
-	})
-);

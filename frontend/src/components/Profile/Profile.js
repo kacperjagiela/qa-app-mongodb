@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {
-	Layout, Typography, Button, Avatar,
+	Layout, Typography, Button, Avatar, Modal,
 } from 'antd';
 import { Link } from 'react-router-dom';
+import Ask from '../Ask/Ask';
 import { getCookie } from '../Reusable/cookies';
 import {
 	getUserData, getQuestions, serverIp, checkForAvatar,
@@ -18,6 +19,7 @@ export default class Profile extends React.Component {
 	state = {
 		questions: [],
 		ready: false,
+		visible: false,
 	};
 
 	componentDidMount() {
@@ -41,16 +43,33 @@ export default class Profile extends React.Component {
 									questions: response.data,
 									avatar: result.data,
 									ready: true,
+									visible: false,
 								}), 1000);
 							});
 					});
 			});
 	}
 
+	handleOk = () => {
+		this.refresh();
+	}
+
+	handleCancel = () => {
+		this.setState({
+			visible: false,
+		});
+	}
+
+	showModal = () => {
+		this.setState({
+			visible: true,
+		});
+	}
+
 	render() {
 		const { history, match } = this.props;
 		const {
-			avatar, username, description, questions, ready,
+			avatar, username, description, questions, ready, visible,
 		} = this.state;
 		const LoggedIn = () => {
 			if (ready) {
@@ -75,9 +94,18 @@ export default class Profile extends React.Component {
 										: null
 								}
 							</div>
+							<Modal
+								title={`Ask ${username}`}
+								visible={visible}
+								onOk={this.handleOk}
+								onCancel={this.handleCancel}
+								footer={null}
+							>
+								<Ask onCancel={this.handleCancel} username={username} onOk={this.handleOk} />
+							</Modal>
 							{getCookie('login') === match.params.username
 								? null
-								: <Link to={`/ask/${username}`}><Button type='primary'>Ask this user</Button></Link>}
+								: <Button type='primary' onClick={() => this.showModal()}>Ask this user</Button>}
 							<Questions>
 								{questions.reverse().map(question => (
 									<Question
